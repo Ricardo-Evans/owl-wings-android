@@ -56,7 +56,6 @@ public class BasicService extends Service implements EventHandler {
             Session.getInstance().start();
             Session.getInstance().setDirectory(MainApplication.DEFAULT_PATH);
             Dispatcher.getInstance().attach(this);
-            for (int i = 0; i < 10; ++i) Session.getInstance().insertTask(new TestTask("Test"));
         } catch (IOException e) {
             exception = e;
         }

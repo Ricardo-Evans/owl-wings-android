@@ -1,6 +1,5 @@
 package com.owl.wings;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,11 +20,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.owl.downloader.core.Task;
 
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class TaskListFragment extends Fragment {
+    private static final Map<Task.Status, Integer> statusMap = new HashMap<>();
     private TaskListViewModel viewModel = null;
     private TaskListViewModel.Filter filter = null;
+
+    static {
+        statusMap.put(Task.Status.ACTIVE, R.string.active);
+        statusMap.put(Task.Status.WAITING, R.string.waiting);
+        statusMap.put(Task.Status.PAUSED, R.string.paused);
+        statusMap.put(Task.Status.COMPLETED, R.string.completed);
+        statusMap.put(Task.Status.ERROR, R.string.error);
+    }
 
     public TaskListFragment() {
     }
@@ -55,7 +65,7 @@ public class TaskListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_task_list, container, false);
         RecyclerView recyclerView = root.findViewById(R.id.recycler_view_task_list);
-        Adapter adapter = new Adapter(getContext(), viewModel, getViewLifecycleOwner());
+        Adapter adapter = new Adapter(viewModel, getViewLifecycleOwner());
         viewModel.setOnInsertListener(adapter::notifyItemInserted);
         viewModel.setOnRemoveListener(adapter::notifyItemRemoved);
         viewModel.setOnChangeListener(adapter::notifyDataSetChanged);
@@ -82,12 +92,10 @@ public class TaskListFragment extends Fragment {
         private final TaskListViewModel viewModel;
         private OnItemClickListener onItemClickListener = null;
         private LifecycleOwner owner;
-        private Context context;
 
-        private Adapter(Context context, TaskListViewModel viewModel, LifecycleOwner owner) {
+        private Adapter(TaskListViewModel viewModel, LifecycleOwner owner) {
             this.viewModel = viewModel;
             this.owner = owner;
-            this.context = context;
         }
 
         public interface OnItemClickListener {
@@ -104,19 +112,30 @@ public class TaskListFragment extends Fragment {
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             holder.itemView.setOnClickListener(v -> {
                 if (onItemClickListener != null)
-                    onItemClickListener.onItemClick(holder.itemView, position);
+                    onItemClickListener.onItemClick(holder.itemView, holder.getAdapterPosition());
             });
             Task task = viewModel.getTask(position);
-            holder.start.setOnClickListener(v -> task.start());
-            holder.pause.setOnClickListener(v -> task.pause());
+            holder.start.setOnClickListener(v -> {
+                if (task.status() == Task.Status.PAUSED || task.status() == Task.Status.ERROR)
+                    task.start();
+            });
+            holder.pause.setOnClickListener(v -> {
+                if (task.status() == Task.Status.ACTIVE || task.status() == Task.Status.WAITING)
+                    task.pause();
+            });
             viewModel.getContent(position).observe(owner, holder.content::setText);
-            viewModel.getStatus(position).observe(owner, holder.status::setText);
-            viewModel.getRunning(position).observe(owner, running -> {
-                if (running) {
+            viewModel.getStatus(position).observe(owner, status -> {
+                Integer resource = statusMap.get(status);
+                assert resource != null;
+                holder.status.setText(resource);
+                if (status == Task.Status.ACTIVE || status == Task.Status.WAITING) {
                     holder.pause.setVisibility(View.VISIBLE);
                     holder.start.setVisibility(View.GONE);
-                } else {
+                } else if (status == Task.Status.PAUSED || status == Task.Status.ERROR) {
                     holder.start.setVisibility(View.VISIBLE);
+                    holder.pause.setVisibility(View.GONE);
+                } else {
+                    holder.start.setVisibility(View.GONE);
                     holder.pause.setVisibility(View.GONE);
                 }
             });

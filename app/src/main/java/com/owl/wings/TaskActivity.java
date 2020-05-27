@@ -20,7 +20,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.owl.downloader.core.Session;
 import com.owl.downloader.core.Task;
 
-import java.net.URI;
 import java.util.Objects;
 
 public class TaskActivity extends AppCompatActivity {
@@ -50,7 +49,7 @@ public class TaskActivity extends AppCompatActivity {
             boolean fromFile = intent.getBooleanExtra(MainApplication.FROM_FILE, false);
             if (fromFile) {
                 task = null; //  TODO: Implement
-            } else task = Session.fromUri(URI.create(data.toString()));
+            } else task = new TestTask(Util.resolveNameFromURI(this, data));
         } else {
             int taskId = intent.getIntExtra(MainApplication.TASK_ID, -1);
             for (Task task : Session.getInstance().getTasks()) {
