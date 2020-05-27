@@ -1,0 +1,61 @@
+<resources>
+    <string name="name">Wings of Owl</string>
+    <string name="setting">Setting</string>
+
+    <string name="overview">Overview</string>
+    <string name="active">Active</string>
+    <string name="waiting">Waiting</string>
+    <string name="completed">Completed</string>
+    <string name="paused">Paused</string>
+    <string name="about">About</string>
+    <!-- Strings used for fragments for navigation -->
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <!-- Strings used for fragments for navigation -->
+
+    <string name="not_available">Not Available</string>
+    <string name="delete">Delete</string>
+    <string name="create">Create</string>
+    <string name="create_task_title">Create Task</string>
+    <string name="delete_task_title">Delete Task</string>
+    <string name="select_file">Select File</string>
+    <string name="input_url">Input URL</string>
+    <string name="invalid_url">Invalid URL</string>
+    <string name="ok" translatable="false">OK</string>
+    <string name="missing_permission_title">Missing Essential Permission</string>
+    <string name="missing_permission_message">The application cannot work!</string>
+    <string name="start_all">Start All</string>
+    <string name="pause_all">Pause All</string>
+    <string name="search">Search</string>
+    <string name="content">Content</string>
+    <string name="pause">Pause</string>
+    <string name="download_speed">Download Speed</string>
+    <string name="upload_speed">Upload Speed</string>
+    <string name="na">NA</string>
+    <string name="copyright" translatable="false">Copyright © 2020 Owl Team</string>
+    <string name="detail">Detail</string>
+    <string name="about_text">Owl Downloader is a lightweight high-speed downloader which is developed based on Java. It supports most popular ways of downloading, including http, bt, magnet and ed2k. Both Android platform and PC are suitable for this software. Considering personal requirements of users, we offers various of downloading settings, therefore users can choose their preferred downloading modes.\nThe developer of this software is Owl Team, a young team from SJTU. If you meet with any problem in the process of using it,  we are glad to have your feedback and advice.\nCopyright © 2020 Owl Team, All rights reserved.</string>
+    <string name="plugin">Plugin</string>
+    <string name="start">Start</string>
+    <string name="error">Error</string>
+    <string name="service_text">Background Service On</string>
+    <string name="basic">Basic</string>
+    <string name="directory">Directory</string>
+    <string name="maximum_connection_count">Maximum Connection Count</string>
+    <string name="delete_confirm">Are you sure to delete the task?</string>
+</resources>

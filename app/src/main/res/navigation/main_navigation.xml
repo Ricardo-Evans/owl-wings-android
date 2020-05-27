@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/navigation_overview"
+    tools:ignore="UnusedNavigation">
+
+    <fragment
+        android:id="@+id/navigation_overview"
+        android:name="com.owl.wings.TaskListFragment"
+        android:label="@string/overview"
+        tools:layout="@layout/fragment_task_list" />
+
+    <fragment
+        android:id="@+id/navigation_active"
+        android:name="com.owl.wings.ActiveTaskListFragment"
+        android:label="@string/active"
+        tools:layout="@layout/fragment_task_list" />
+
+    <fragment
+        android:id="@+id/navigation_waiting"
+        android:name="com.owl.wings.WaitingTaskListFragment"
+        android:label="@string/waiting"
+        tools:layout="@layout/fragment_task_list" />
+
+    <fragment
+        android:id="@+id/navigation_paused"
+        android:name="com.owl.wings.PausedTaskListFragment"
+        android:label="@string/paused"
+        tools:layout="@layout/fragment_task_list" />
+
+    <fragment
+        android:id="@+id/navigation_completed"
+        android:name="com.owl.wings.CompletedTaskListFragment"
+        android:label="@string/completed"
+        tools:layout="@layout/fragment_task_list" />
+
+    <fragment
+        android:id="@+id/navigation_error"
+        android:name="com.owl.wings.ErrorTaskListFragment"
+        android:label="@string/error"
+        tools:layout="@layout/fragment_task_list" />
+
+    <activity
+        android:id="@+id/navigation_plugin"
+        android:name="com.owl.wings.PluginActivity"
+        android:label="@string/plugin" />
+
+    <activity
+        android:id="@+id/navigation_setting"
+        android:name="com.owl.wings.SettingActivity"
+        android:label="@string/setting" />
+
+    <activity
+        android:id="@+id/navigation_about"
+        android:name="com.owl.wings.AboutActivity"
+        android:label="@string/about" />
+
+</navigation>

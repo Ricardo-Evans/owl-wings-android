@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="name">猫头鹰之翼</string>
+    <string name="overview">总览</string>
+    <string name="active">运行中</string>
+    <string name="setting">设置</string>
+    <string name="waiting">等待中</string>
+    <string name="completed">已完成</string>
+    <string name="paused">已暂停</string>
+    <string name="about">关于</string>
+    <string name="confirm">确定</string>
+    <string name="cancel">取消</string>
+    <string name="not_available">不可用</string>
+    <string name="delete">删除</string>
+    <string name="create">创建</string>
+    <string name="create_task_title">创建任务</string>
+    <string name="delete_task_title">删除任务</string>
+    <string name="select_file">选择文件</string>
+    <string name="input_url">输入链接</string>
+    <string name="invalid_url">链接无效</string>
+    <string name="missing_permission_title">缺少必要权限</string>
+    <string name="missing_permission_message">应用无法正常运行！</string>
+    <string name="start_all">开始全部</string>
+    <string name="pause_all">暂停全部</string>
+    <string name="search">搜索</string>
+    <string name="content">内容</string>
+    <string name="pause">暂停</string>
+    <string name="download_speed">下载速度</string>
+    <string name="upload_speed">上传速度</string>
+    <string name="na">不可用</string>
+    <string name="detail">详细</string>
+    <string name="about_text">Owl Downloader 是一款轻量级的高速下载软件，基于Java开发，支持绝大多数主流的下载方式，包括http下载，bt下载，magnet下载，ed2k下载等，能够在安卓端或PC端运行，针对用户的个性化需求，本软件也提供了多样的下载设置，从而使得用户能够选择最偏好的下载模式。\n本软件的制作组为Owl Team，一个来自交大的年轻团队，如果您在使用中遇到任何问题，我们非常欢迎您的反馈和建议。\n本软件版权归Owl Team所有，Owl Team保留有本软件的一切权利。</string>
+    <string name="plugin">插件</string>
+    <string name="start">开始</string>
+    <string name="error">出错了</string>
+    <string name="service_text">后台服务已启动</string>
+    <string name="basic">基础</string>
+    <string name="directory">目录</string>
+    <string name="maximum_connection_count">最大连接数</string>
+    <string name="delete_confirm">你确认要删除这个任务吗？</string>
+</resources>
