@@ -7,16 +7,17 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+
+import com.owl.wings.databinding.ActivityPluginBinding;
 
 public class PluginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_plugin);
-        Toolbar toolbar = findViewById(R.id.toolbar_plugin);
-        setSupportActionBar(toolbar);
+        ActivityPluginBinding binding = ActivityPluginBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        setSupportActionBar(binding.toolbarPlugin);
     }
 
     @Override

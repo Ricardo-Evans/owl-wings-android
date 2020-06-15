@@ -9,4 +9,17 @@
         <item>reply</item>
         <item>reply_all</item>
     </string-array>
+
+    <string-array name="proxy_mode_entries">
+        <item>@string/direct</item>
+        <item>@string/proxy</item>
+        <item>@string/exclude</item>
+    </string-array>
+
+    <string-array name="proxy_mode_values">
+        <item>direct</item>
+        <item>proxy</item>
+        <item>exclude</item>
+    </string-array>
+
 </resources>

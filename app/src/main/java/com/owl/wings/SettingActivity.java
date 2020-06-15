@@ -7,18 +7,19 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.preference.PreferenceFragmentCompat;
+
+import com.owl.wings.databinding.ActivitySettingBinding;
 
 public class SettingActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setting);
+        ActivitySettingBinding binding = ActivitySettingBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         getSupportFragmentManager().beginTransaction().replace(R.id.settings, new SettingFragment()).commit();
-        Toolbar toolbar = findViewById(R.id.toolbar_setting);
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.toolbarSetting);
     }
 
     @Override
@@ -42,7 +43,7 @@ public class SettingActivity extends AppCompatActivity {
     public static class SettingFragment extends PreferenceFragmentCompat {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-            setPreferencesFromResource(R.xml.root_preferences, rootKey);
+            setPreferencesFromResource(R.xml.root_preference, rootKey);
         }
     }
 

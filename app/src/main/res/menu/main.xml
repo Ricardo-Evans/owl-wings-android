@@ -30,5 +30,10 @@
             android:id="@+id/menu_main_about"
             android:title="@string/about"
             app:showAsAction="never" />
+
+        <item
+            android:id="@+id/menu_main_exit"
+            android:title="@string/exit"
+            app:showAsAction="never" />
     </group>
 </menu>

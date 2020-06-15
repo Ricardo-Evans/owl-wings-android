@@ -1,47 +1,43 @@
 package com.owl.wings;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
-import android.widget.SeekBar;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.owl.downloader.core.Session;
 import com.owl.downloader.core.Task;
+import com.owl.wings.databinding.ActivityTaskBinding;
 
+import java.net.URI;
 import java.util.Objects;
 
 public class TaskActivity extends AppCompatActivity {
     private Task task;
     private boolean create = false;
-    private EditText directory;
-    private TextView connectionCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_task);
-        Toolbar toolbar = findViewById(R.id.toolbar_task);
-        setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab_task);
-        fab.setOnClickListener(view -> {
-            task.setDirectory(directory.getText().toString());
-            task.setMaximumConnections(Integer.parseInt(connectionCount.getText().toString()));
+        ActivityTaskBinding binding = ActivityTaskBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        setSupportActionBar(binding.toolbarTask);
+        binding.fabTask.setOnClickListener(view -> {
             if (create) Session.getInstance().insertTask(task);
             finish();
         });
-        TextView content = findViewById(R.id.task_content);
         Intent intent = getIntent();
         create = intent.getBooleanExtra(MainApplication.ACTION_CREATE, false);
         if (create) {
@@ -49,7 +45,7 @@ public class TaskActivity extends AppCompatActivity {
             boolean fromFile = intent.getBooleanExtra(MainApplication.FROM_FILE, false);
             if (fromFile) {
                 task = null; //  TODO: Implement
-            } else task = new TestTask(Util.resolveNameFromURI(this, data));
+            } else task = Session.fromUri(URI.create(data.toString()));
         } else {
             int taskId = intent.getIntExtra(MainApplication.TASK_ID, -1);
             for (Task task : Session.getInstance().getTasks()) {
@@ -59,8 +55,48 @@ public class TaskActivity extends AppCompatActivity {
                 }
             }
         }
-        content.setText(task.name());
-        initializeSetting();
+        assert task != null;
+        TaskViewModel viewModel = new ViewModelProvider(this).get(TaskViewModel.class);
+        viewModel.setTask(task);
+        binding.pagerTask.setAdapter(new FragmentStateAdapter(this) {
+            @NonNull
+            @Override
+            public Fragment createFragment(int position) {
+                switch (position) {
+                    case 0:
+                        return new TaskBasicFragment();
+                    case 1:
+                        return new TaskDetailFragment();
+                    case 2:
+                        return new TaskSettingFragment();
+                    default:
+                        throw new IndexOutOfBoundsException();
+                }
+            }
+
+            @Override
+            public int getItemCount() {
+                return 3;
+            }
+        });
+        new TabLayoutMediator(binding.tabsTask, binding.pagerTask, (tab, position) -> {
+            switch (position) {
+                case 0: {
+                    tab.setText(R.string.basic);
+                    break;
+                }
+                case 1: {
+                    tab.setText(R.string.files);
+                    break;
+                }
+                case 2: {
+                    tab.setText(R.string.setting);
+                    break;
+                }
+                default:
+                    throw new IndexOutOfBoundsException();
+            }
+        }).attach();
     }
 
     @Override
@@ -99,27 +135,9 @@ public class TaskActivity extends AppCompatActivity {
         return true;
     }
 
-    private void initializeSetting() {
-        directory = findViewById(R.id.task_directory);
-        directory.setText(task.getDirectory());
-        SeekBar seekBar = findViewById(R.id.task_connection);
-        connectionCount = findViewById(R.id.task_connection_count);
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                connectionCount.setText(String.valueOf(progress + 1));
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
-        });
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-            seekBar.setProgress(task.getMaximumConnections() - 1, false);
-        else seekBar.setProgress(task.getMaximumConnections() - 1);
+    private void apply() {
+        SharedPreferences preferences = getSharedPreferences(task.name(), Context.MODE_PRIVATE);
+        task.setDirectory(preferences.getString("directory", MainApplication.DEFAULT_PATH));
+        task.setMaximumConnections(preferences.getInt("maximum_connection_count", 5));
     }
 }

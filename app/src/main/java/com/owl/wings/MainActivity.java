@@ -20,20 +20,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentContainerView;
+import androidx.databinding.DataBindingUtil;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.owl.downloader.core.Session;
 import com.owl.downloader.core.Task;
+import com.owl.wings.databinding.ActivityMainBinding;
+import com.owl.wings.databinding.NavigationHeaderMainBinding;
 
 public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_PERMISSION = 0;
@@ -44,14 +42,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         if (!Util.checkPermissions(this, permissions))
             ActivityCompat.requestPermissions(this, permissions, REQUEST_PERMISSION);
         else launchService();
-        Toolbar toolbar = findViewById(R.id.toolbar_main);
-        setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab_main);
-        fab.setOnClickListener(view -> {
+        setSupportActionBar(binding.toolbarMain);
+        NavigationHeaderMainBinding.bind(binding.navigationViewMain.getHeaderView(0));
+        binding.fabMain.setOnClickListener(view -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.create_task_title);
             View dialogView = View.inflate(this, R.layout.edit_text_url, null);
@@ -59,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
             builder.setPositiveButton(R.string.confirm, (dialog, which) -> {
                 EditText input = dialogView.findViewById(R.id.edit_text_url);
                 if (!Patterns.WEB_URL.matcher(input.getText()).matches())
-                    Snackbar.make(fab, R.string.invalid_url, Snackbar.LENGTH_LONG).setAction(R.string.ok, View::clearFocus).show();
+                    Snackbar.make(binding.fabMain, R.string.invalid_url, Snackbar.LENGTH_LONG).setAction(R.string.ok, View::clearFocus).show();
                 else {
                     Intent intent = new Intent(MainActivity.this, TaskActivity.class);
                     intent.setData(Uri.parse(input.getText().toString()));
@@ -78,14 +75,11 @@ public class MainActivity extends AppCompatActivity {
             SimpleDialogFragment fragment = new SimpleDialogFragment(builder.create());
             fragment.show(getSupportFragmentManager(), "create task");
         });
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        appBarConfiguration = new AppBarConfiguration.Builder(R.id.navigation_overview, R.id.navigation_active, R.id.navigation_waiting, R.id.navigation_paused, R.id.navigation_completed, R.id.navigation_error).setDrawerLayout(drawer).build();
-        FragmentContainerView fragmentContainerView = findViewById(R.id.nav_host_fragment);
-        fragmentContainerView.post(() -> {
-            NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-            NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration);
-            NavigationUI.setupWithNavController(navigationView, navController);
+        appBarConfiguration = new AppBarConfiguration.Builder(R.id.navigation_overview, R.id.navigation_active, R.id.navigation_waiting, R.id.navigation_paused, R.id.navigation_completed, R.id.navigation_error).setDrawerLayout(binding.drawerLayout).build();
+        binding.fragmentMain.post(() -> {
+            NavController navController = Navigation.findNavController(this, R.id.fragment_main);
+            NavigationUI.setupWithNavController(binding.toolbarMain, navController, appBarConfiguration);
+            NavigationUI.setupWithNavController(binding.navigationViewMain, navController);
         });
     }
 
@@ -139,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavController navController = Navigation.findNavController(this, R.id.fragment_main);
         return NavigationUI.navigateUp(navController, appBarConfiguration) || super.onSupportNavigateUp();
     }
 
@@ -166,6 +160,11 @@ public class MainActivity extends AppCompatActivity {
             }
             case R.id.menu_main_about: {
                 startActivity(new Intent(MainActivity.this, AboutActivity.class));
+                break;
+            }
+            case R.id.menu_main_exit: {
+                stopService(new Intent(MainActivity.this, BasicService.class));
+                finish();
                 break;
             }
             default:

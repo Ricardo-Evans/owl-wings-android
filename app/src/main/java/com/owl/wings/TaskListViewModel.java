@@ -70,18 +70,45 @@ public class TaskListViewModel extends ViewModel implements Runnable, EventHandl
         boolean filter(Task task);
     }
 
-    private static final class TaskData {
-        Task task = null;
-        MutableLiveData<String> content = new MutableLiveData<>(null);
-        MutableLiveData<Double> progress = new MutableLiveData<>(0.0);
-        MutableLiveData<String> download = new MutableLiveData<>(null);
-        MutableLiveData<String> upload = new MutableLiveData<>(null);
-        MutableLiveData<Task.Status> status = new MutableLiveData<>(Task.Status.WAITING);
+    public static final class TaskData {
+        private Task task;
+        private MutableLiveData<String> content = new MutableLiveData<>(null);
+        private MutableLiveData<Double> progress = new MutableLiveData<>(0.0);
+        private MutableLiveData<String> download = new MutableLiveData<>(null);
+        private MutableLiveData<String> upload = new MutableLiveData<>(null);
+        private MutableLiveData<Task.Status> status = new MutableLiveData<>(Task.Status.WAITING);
+
+        public TaskData(Task task) {
+            this.task = task;
+        }
+
+        public Task getTask() {
+            return task;
+        }
+
+        public LiveData<String> getContent() {
+            return content;
+        }
+
+        public LiveData<Double> getProgress() {
+            return progress;
+        }
+
+        public LiveData<String> getDownload() {
+            return download;
+        }
+
+        public LiveData<String> getUpload() {
+            return upload;
+        }
+
+        public LiveData<Task.Status> getStatus() {
+            return status;
+        }
     }
 
     private TaskData calculate(Task task) {
-        TaskData data = new TaskData();
-        data.task = task;
+        TaskData data = new TaskData(task);
         data.content.postValue(task.name());
         data.progress.postValue(100.0 * data.task.downloadedLength() / (data.task.totalLength() + 0.001)); // Avoid divide by zero
         data.download.postValue(Util.humanizeDataSize(data.task.downloadSpeed()) + "/s");
@@ -147,6 +174,10 @@ public class TaskListViewModel extends ViewModel implements Runnable, EventHandl
         super.onCleared();
         Dispatcher.getInstance().detach(this);
         cleared = true;
+    }
+
+    public TaskData getTaskData(int index) {
+        return dataList.get(index);
     }
 
     public Task getTask(int index) {

@@ -38,4 +38,12 @@
     <string name="directory">目录</string>
     <string name="maximum_connection_count">最大连接数</string>
     <string name="delete_confirm">你确认要删除这个任务吗？</string>
+    <string name="exit">退出</string>
+    <string name="proxy_mode">代理模式</string>
+    <string name="proxy_list">代理列表</string>
+    <string name="direct">直连</string>
+    <string name="proxy">代理</string>
+    <string name="exclude">绕行</string>
+    <string name="general">常规</string>
+    <string name="files">文件</string>
 </resources>

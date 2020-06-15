@@ -11,8 +11,8 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
-        android:name="com.owl.wings.MainApplication"
-        android:allowBackup="true"
+        android:name=".MainApplication"
+        android:allowBackup="false"
         android:icon="@mipmap/icon"
         android:label="@string/name"
         android:networkSecurityConfig="@xml/network_security_config"
@@ -22,7 +22,7 @@
         android:theme="@style/AppTheme"
         tools:targetApi="q">
         <activity
-            android:name="com.owl.wings.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/name"
             android:launchMode="singleInstance"
             android:theme="@style/AppTheme.NoActionBar">
@@ -33,24 +33,24 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.owl.wings.TaskActivity"
+            android:name=".TaskActivity"
             android:label="@string/detail"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.owl.wings.PluginActivity"
+            android:name=".PluginActivity"
             android:label="@string/plugin"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.owl.wings.SettingActivity"
+            android:name=".SettingActivity"
             android:label="@string/setting"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.owl.wings.AboutActivity"
+            android:name=".AboutActivity"
             android:label="@string/about"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <service
-            android:name="com.owl.wings.BasicService"
+            android:name=".BasicService"
             android:enabled="true" />
     </application>
 

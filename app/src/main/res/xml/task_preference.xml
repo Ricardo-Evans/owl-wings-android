@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory android:title="@string/general">
+
+        <EditTextPreference
+            android:key="directory"
+            android:title="@string/directory"
+            app:useSimpleSummaryProvider="true" />
+
+        <SeekBarPreference
+            android:key="maximum_connection_count"
+            android:max="10"
+            android:title="@string/maximum_connection_count"
+            app:min="1"
+            app:showSeekBarValue="true" />
+
+        <ListPreference
+            android:entries="@array/proxy_mode_entries"
+            android:entryValues="@array/proxy_mode_values"
+            android:key="proxy_mode"
+            android:title="@string/proxy_mode"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            android:key="proxy_list"
+            android:title="@string/proxy_list"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
