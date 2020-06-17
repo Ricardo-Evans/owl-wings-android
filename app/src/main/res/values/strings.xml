@@ -54,7 +54,7 @@
     <string name="start">Start</string>
     <string name="error">Error</string>
     <string name="service_text">Background Service On</string>
-    <string name="basic">Basic</string>
+    <string name="information">Information</string>
     <string name="directory">Directory</string>
     <string name="maximum_connection_count">Maximum Connection Count</string>
     <string name="delete_confirm">Are you sure to delete the task?</string>
@@ -66,4 +66,7 @@
     <string name="exclude">Exclude</string>
     <string name="general">General</string>
     <string name="files">Files</string>
+    <string name="downloaded_length">Downloaded Length</string>
+    <string name="uploaded_length">Uploaded Length</string>
+    <string name="total_length">Total Length</string>
 </resources>

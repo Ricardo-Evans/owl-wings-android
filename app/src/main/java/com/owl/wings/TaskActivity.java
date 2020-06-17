@@ -13,6 +13,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
@@ -21,6 +22,7 @@ import com.owl.downloader.core.Session;
 import com.owl.downloader.core.Task;
 import com.owl.wings.databinding.ActivityTaskBinding;
 
+import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.util.Objects;
 
@@ -56,8 +58,17 @@ public class TaskActivity extends AppCompatActivity {
             }
         }
         assert task != null;
-        TaskViewModel viewModel = new ViewModelProvider(this).get(TaskViewModel.class);
-        viewModel.setTask(task);
+        TaskViewModel viewModel = new ViewModelProvider(this, new ViewModelProvider.Factory() {
+            @NonNull
+            @Override
+            public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+                try {
+                    return modelClass.getConstructor(Task.class).newInstance(task);
+                } catch (IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchMethodException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }).get(TaskViewModel.class);
         binding.pagerTask.setAdapter(new FragmentStateAdapter(this) {
             @NonNull
             @Override
@@ -66,8 +77,6 @@ public class TaskActivity extends AppCompatActivity {
                     case 0:
                         return new TaskBasicFragment();
                     case 1:
-                        return new TaskDetailFragment();
-                    case 2:
                         return new TaskSettingFragment();
                     default:
                         throw new IndexOutOfBoundsException();
@@ -76,20 +85,16 @@ public class TaskActivity extends AppCompatActivity {
 
             @Override
             public int getItemCount() {
-                return 3;
+                return 2;
             }
         });
         new TabLayoutMediator(binding.tabsTask, binding.pagerTask, (tab, position) -> {
             switch (position) {
                 case 0: {
-                    tab.setText(R.string.basic);
+                    tab.setText(R.string.information);
                     break;
                 }
                 case 1: {
-                    tab.setText(R.string.files);
-                    break;
-                }
-                case 2: {
                     tab.setText(R.string.setting);
                     break;
                 }

@@ -26,6 +26,7 @@ public class TaskBasicFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         FragmentTaskBasicBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_task_basic, container, false);
+        binding.setLifecycleOwner(this);
         binding.setViewModel(viewModel);
         return binding.getRoot();
     }

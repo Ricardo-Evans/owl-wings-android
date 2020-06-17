@@ -34,7 +34,7 @@
     <string name="start">开始</string>
     <string name="error">出错了</string>
     <string name="service_text">后台服务已启动</string>
-    <string name="basic">基础</string>
+    <string name="information">信息</string>
     <string name="directory">目录</string>
     <string name="maximum_connection_count">最大连接数</string>
     <string name="delete_confirm">你确认要删除这个任务吗？</string>
@@ -46,4 +46,7 @@
     <string name="exclude">绕行</string>
     <string name="general">常规</string>
     <string name="files">文件</string>
+    <string name="downloaded_length">下载长度</string>
+    <string name="uploaded_length">上传长度</string>
+    <string name="total_length">总长度</string>
 </resources>
